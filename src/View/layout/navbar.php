@@ -7,12 +7,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNav">
     <ul class="navbar-nav mr-auto">
-      <li class="nav-item">
-        <a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i> Login</a>
-      </li>
-      <li class="nav-item">
-        <a class="nav-link" href="signup"><i class="fas fa-user-plus"></i> Signup</a>
-      </li>
+      <?php if(isset($_SESSION['user'])): ?>
       <li class="nav-item">
         <a class="nav-link" href="quizzes"><i class="fas fa-book"></i> Quizzes</a>
       </li>
@@ -30,6 +25,14 @@
       <li class="nav-item">
         <a class="nav-link" href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </li>
+        <?php else: ?>
+      <li class="nav-item">
+        <a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i> Login</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="signup"><i class="fas fa-user-plus"></i> Signup</a>
+      </li>
+          <?php endif; ?>
     </ul>
   </div>
 

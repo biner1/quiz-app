@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Config\Utilities as utils;
+use App\Config\middlewares\AuthMiddleware;
+
 
 use App\Model\QuizModel as Quiz;
 use App\Model\UserModel as User;
@@ -10,13 +12,17 @@ use App\Model\UserModel as User;
 
 class QuizController extends BaseController{
 
+    public function __construct(){
+        $this->registerMiddleware(new AuthMiddleware());
+    }
+
     public function index(){
         if(User::isTeacher($_SESSION['id'])){
             $quizzes = Quiz::getQuizzesByUser(utils::getSession('id'));
-            $this->render('quiz/quizzes_teacher', ['quizzes'=>$quizzes]);
+            return  $this->render('quiz/quizzes_teacher', ['quizzes'=>$quizzes]);
         }else{
             $quizzes = Quiz::getSubmittableQuizzes();
-            $this->render('quiz/quizzes_student', ['quizzes'=>$quizzes]);
+            return $this->render('quiz/quizzes_student', ['quizzes'=>$quizzes]);
         }
     }
 
@@ -29,16 +35,15 @@ class QuizController extends BaseController{
         }
 
         if(User::isTeacher($_SESSION['id'])){
-
             $quiz = Quiz::getQuiz($_GET['id']);
             $quiz_id = $_GET['id'];
             $questions = Quiz::getQuestionsAndOptionsOfQuiz($quiz_id);
-            $this->render('quiz/quiz_teacher', ['quiz'=>$quiz, 'questions'=>$questions]);
+            return $this->render('quiz/quiz_teacher', ['quiz'=>$quiz, 'questions'=>$questions]);
         
         }else{
             $quiz_id = $_GET['id'];
             $questions = Quiz::getQuestionsAndOptionsOfQuiz($quiz_id);
-            $this->render('quiz/quiz_student', ['questions'=>$questions]);
+            return $this->render('quiz/quiz_student', ['questions'=>$questions]);
         }
     }
 
@@ -71,7 +76,7 @@ class QuizController extends BaseController{
             $description = $_POST['quiz_description'];
             $submittable = isset($_POST['submittable']) && $_POST['submittable'] === '1';
         
-            $quiz = Quiz::updateQuiz($quiz_id, $title, $description, $submittable);
+            $quiz = Quiz::updateQuiz($quiz_id, $title, $description, $submittable, utils::getSession('id'));
             // $quiz = false;
             if($quiz){
                 utils::responde(true);

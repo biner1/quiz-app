@@ -18,8 +18,20 @@ class QuizModel extends Database{
     }
 
     static function getQuizzesByUser($user_id){
-        $sql = "SELECT * FROM `quizzes` WHERE `user_id` = :user_id";
+        // $sql = "SELECT * FROM `quizzes` WHERE `user_id` = :user_id";
+        $sql ="SELECT quizzes.id, quizzes.title, quizzes.created_at, quizzes.description,
+            submittable, COUNT(questions.id) as question_count 
+        FROM quizzes 
+        LEFT JOIN questions ON quizzes.id = questions.quiz_id 
+        where quizzes.user_id = :user_id
+        GROUP BY quizzes.id
+        ";
         return Database::query($sql, [':user_id'=>$user_id]);
+    }
+    
+    static function getQuiz($id){
+        $sql = "SELECT * FROM `quizzes` WHERE `id` = :id";
+        return Database::query($sql, [':id'=>$id]);
     }
 
     static function getSubmittableQuizzes(){
@@ -32,19 +44,15 @@ class QuizModel extends Database{
         return Database::execute($sql, [':id'=>$id, ':submittable'=>$submittable]);
     }
 
-    static function getQuiz($id){
-        $sql = "SELECT * FROM `quizzes` WHERE `id` = :id";
-        return Database::query($sql, [':id'=>$id]);
-    }
 
     static function updateQuizTitle($id, $title){
         $sql = "UPDATE `quizzes` SET `title` = :title WHERE `id` = :id";
         return Database::execute($sql, [':id'=>$id, ':title'=>$title]);
     }
 
-    static function updateQuiz($id, $title, $description, $submittable){
-        $sql = "UPDATE `quizzes` SET `title` = :title, `description` = :description, `submittable` = :submittable WHERE `id` = :id";
-        return Database::execute($sql, [':id'=>$id, ':title'=>$title, ':description'=>$description, ':submittable'=>$submittable]);
+    static function updateQuiz($id, $title, $description, $submittable, $user_id){
+        $sql = "UPDATE `quizzes` SET `title` = :title, `description` = :description, `submittable` = :submittable WHERE `id` = :id and `user_id` = :user_id";
+        return Database::execute($sql, [':id'=>$id, ':title'=>$title, ':description'=>$description, ':submittable'=>$submittable, ':user_id'=>$user_id]);
     }
 
     static function deleteQuiz($id){

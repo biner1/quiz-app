@@ -79,8 +79,21 @@ class Router {
             }
             // [UserController::class, 'index']
             else if(is_array($action)){
+                /** @var \App\Controller\BaseController $controller */
                 $controller = new $action[0]();
+                // print_r($controller);
+                // exit();
+                $controller->action = $action[1];
                 $prop = $action[1];
+                
+                if($controller instanceof \App\Controller\BaseController){
+                    Application::$app->controller = $controller;
+                    $middlewares = $controller->getMiddlewares();
+                    foreach ($middlewares as $middleware) {
+                        $middleware->execute();
+                    }
+                }
+
                 $controller->$prop();
             }
             // UserController@index
@@ -88,8 +101,17 @@ class Router {
                 $act = explode('@', $action);
                 $controller = new $act[0]();
                 $prop = $act[1];
+
+                Application::$app->controller = $controller;
+                if($controller instanceof \App\Controller\BaseController){
+                    foreach ($controller->getMiddlewares() as $middleware) {
+                        $middleware->execute();
+                    }
+                }
+
                 $controller->$prop();
             }
+
         } else {
             throw new Exception('Route not found!');
         }

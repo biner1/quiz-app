@@ -21,7 +21,7 @@ $router->get('custom', function(){
     echo "This custom route";
 });
 
-$router->get('/', [HomeController::class, 'index']);
+$router->get('', [HomeController::class, 'index']);
 $router->get('login', [AuthController::class, 'login']);
 $router->get('signup', [AuthController::class, 'signup']);
 $router->get('logout', [AuthController::class, 'logout']);
@@ -51,6 +51,7 @@ $router->get('account', [UserController::class, 'index']);
 $router->post('account/update', [UserController::class, 'update']);
 $router->post('account/password', [UserController::class, 'changePassword']);
 $router->post('account/image', [UserController::class, 'changeImage']);
+
 
 
 

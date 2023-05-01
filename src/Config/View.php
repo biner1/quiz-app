@@ -9,7 +9,7 @@ class View {
         if(file_exists($view_file)){
             $layoutContent = View::layoutContent();
             $viewContent = View::renderOnlyView($view, $data);
-            return str_replace('{{content}}', $viewContent, $layoutContent);
+            echo str_replace('{{content}}', $viewContent, $layoutContent);
         }
         else {
             throw new Exception('View not found!');

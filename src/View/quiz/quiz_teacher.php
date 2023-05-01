@@ -1,5 +1,6 @@
 <h2>Quiz</h2>
 <ul class="list-group">
+  <ol>
   <?php foreach($quiz as $qu): ?>
     <li class="list-group-item">
       <div class="d-flex justify-content-between align-items-center">
@@ -16,13 +17,13 @@
 <ol class="list-group">
 <?php foreach ($questions as $quiz_id => $quiz_data) { ?>
   <?php foreach ($quiz_data['questions'] as $question_text => $question_data) { ?>
-    <li class="list-group-item">
+  <li class="list-group-item">
 
   <div class="d-flex justify-content-between align-items-center">
     
-  <!-- question update form -->
+    <!-- question update form -->
     <form action="question/update" method="post" class="update-question-form">
-      <input type="text" class="form-control" id="question_text" name="question_text" value="<?= $question_data['question_text']; ?>">
+      <li><input type="text" class="form-control" id="question_text" name="question_text" value="<?= $question_data['question_text']; ?>"></li>
       <input type="hidden" name="qid" value="<?= $_GET['id']; ?>">
       <input type="hidden" name="update_question" value="<?= $question_data['question_id']; ?>">
       <button type="submit" class="btn btn-primary btn-sm mr-2">Update</button>
@@ -33,7 +34,7 @@
       <a class="btn btn-danger btn-sm delete-question-link" href="question/delete?qid=<?= $_GET['id']; ?>&id=<?= $question_data['question_id']; ?>">Delete Question</a>
     </div>
   </div>
-
+    
 <ol type="A">
 <?php  foreach ($question_data['options'] as $option_data) { ?>
   <li class="d-flex align-items-center">
@@ -43,7 +44,7 @@
       <form action="option/update" method="POST" class="update-option-form">
         
         <div class="form-group form-check">
-          <input type="text" class="form-control" id="option_text" name="option_text" value="<?php echo $option_data['option_text']; ?>">
+          <li><input type="text" class="form-control" id="option_text" name="option_text" value="<?php echo $option_data['option_text']; ?>"></li>
           <input type="checkbox" class="form-check-input" name="is_correct" id="is_correct_<?php echo $option_data['option_id']; ?>" value="1" <?php if($option_data['is_correct']) echo 'checked'; ?>>
           <label class="form-check-label" for="is_correct_<?php echo $option_data['option_id']; ?>">Correct?</label>
         </div>
@@ -76,7 +77,11 @@
     <input type="hidden" name="create_option" value="<?= $question_data['question_id']; ?>">
     <button type="submit" class="btn btn-success btn-sm">Add Option</button>
   </form>
-  <?php }} ?>
+  </li>
+  <?php } ?>
+
+<?php  } ?>
+
 </ol>
 
 <div id="option-error"></div>

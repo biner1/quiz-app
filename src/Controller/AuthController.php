@@ -3,11 +3,16 @@
 namespace App\Controller;
 
 use App\Config\View;
+use App\Config\Utilities as utils;
+use App\Config\middlewares\NotAuthenticatedMiddleware;
 
 use App\Model\UserModel as User;
-use App\Config\Utilities as utils;
 
 class AuthController extends BaseController{
+
+    public function __construct(){
+        $this->registerMiddleware(new NotAuthenticatedMiddleware('dashboard', ['login', 'signup']));
+    }
 
     public function login(){
         if(utils::is_post()){
@@ -29,7 +34,7 @@ class AuthController extends BaseController{
             }
             
         }else{
-            $this->render('auth/login');
+            return $this->render('auth/login');
         }
 
     }
@@ -59,7 +64,7 @@ class AuthController extends BaseController{
             utils::responde(false, $errors);
           }
         }else{
-            $this->render('auth/signup');
+            return $this->render('auth/signup');
         }
 
     }
@@ -67,7 +72,7 @@ class AuthController extends BaseController{
 
     public function logout(){
         utils::destroySession();
-        utils::redirect('quiz');
+        utils::redirect('login');
     }
 
 

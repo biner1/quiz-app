@@ -4,15 +4,21 @@ namespace App\Controller;
 
 use App\Config\Utilities as utils;
 use App\Config\Application;
+use App\Config\middlewares\AuthMiddleware;
 
 use App\Model\UserModel as User;
 
 
 class UserController extends BaseController{
+
+
+    public function __construct(){
+        $this->registerMiddleware(new AuthMiddleware());
+    }
     
     public function index(){
         $user = User::getUserById($_SESSION['id'])[0];
-        $this->render('profile/account',['user'=>$user]);
+        return $this->render('profile/account',['user'=>$user]);
     }
 
 

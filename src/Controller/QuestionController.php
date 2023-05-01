@@ -3,10 +3,16 @@
 namespace App\Controller;
 
 use App\Config\Utilities as utils;
+use App\Config\middlewares\AuthMiddleware;
+
 
 use App\Model\QuestionModel as Questions;
 
 class QuestionController{
+
+    public function __construct(){
+        $this->registerMiddleware(new AuthMiddleware());
+    }
 
     public function store(){
         if(isset($_POST['create_question'])){

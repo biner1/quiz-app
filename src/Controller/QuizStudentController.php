@@ -3,6 +3,7 @@
 namespace App\Controller;
 
 use App\Config\Utilities as utils;
+use App\Config\middlewares\AuthMiddleware;
 
 use App\Model\UserModel as User;
 use App\Model\QuizModel as Quiz;
@@ -13,6 +14,10 @@ use App\model\OptionModel as Option;
 
 
 class QuizStudentController extends BaseController{
+
+    public function __construct(){
+        $this->registerMiddleware(new AuthMiddleware());
+    }
 
     public function store(){
         $quiz_id = $_POST['quiz_id'];

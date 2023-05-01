@@ -4,11 +4,16 @@
 namespace App\Controller;
 
 use App\Config\Utilities as utils;
+use App\Config\middlewares\AuthMiddleware;
 
 use App\Model\OptionModel as Options;
 
 
 class OptionController{
+
+    public function __construct(){
+        return $this->registerMiddleware(new AuthMiddleware());
+    }
 
     public function store(){
         if(isset($_POST['create_option'])){
