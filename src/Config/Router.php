@@ -3,6 +3,8 @@
 namespace App\Config;
 
 use Exception;
+use App\config\exceptions\NotFoundException;
+
 
 class Router {
     private $routes;
@@ -113,7 +115,7 @@ class Router {
             }
 
         } else {
-            throw new Exception('Route not found!');
+            throw new NotFoundException();
         }
     }
     

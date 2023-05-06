@@ -28,10 +28,21 @@ class QuizModel extends Database{
         ";
         return Database::query($sql, [':user_id'=>$user_id]);
     }
-    
+
+    static function getNumberOfQuestions($quiz_id){
+        $sql = "SELECT COUNT(*) AS count FROM `questions` WHERE `quiz_id` = :quiz_id";
+        $result = Database::query($sql, [':quiz_id'=>$quiz_id]);
+        return $result[0]['count'];
+    }
+
     static function getQuiz($id){
         $sql = "SELECT * FROM `quizzes` WHERE `id` = :id";
         return Database::query($sql, [':id'=>$id]);
+    }
+
+    static function getQuizByUser($id, $user_id){
+        $sql = "SELECT * FROM `quizzes` WHERE `id` = :id and `user_id` = :user_id";
+        return Database::query($sql, [':id'=>$id, ':user_id'=>$user_id]);
     }
 
     static function getSubmittableQuizzes(){
@@ -58,6 +69,23 @@ class QuizModel extends Database{
     static function deleteQuiz($id){
         $sql = "DELETE FROM `quizzes` WHERE `id` = :id";
         return Database::execute($sql, [':id'=>$id]);
+    }
+
+    static function isSubmittable($quiz_id){
+        $sql = "SELECT `submittable` FROM `quizzes` WHERE `id` = :quiz_id";
+        $result = Database::query($sql, [':quiz_id'=>$quiz_id]);
+        return $result[0]['submittable'] == 1;
+    }
+
+    static function isUpdatable($quiz_id, $user_id){
+        $sql = "SELECT COUNT(*) AS count 
+        FROM quizzes 
+        JOIN quiz_attempts ON quizzes.id = quiz_attempts.quiz_id 
+        WHERE quizzes.id = :quiz_id 
+        AND quizzes.user_id = :user_id
+        ";
+        $result = Database::query($sql, [':quiz_id'=>$quiz_id, ':user_id'=>$user_id]);
+        return $result[0]['count'] == 0;
     }
 
     
@@ -87,16 +115,14 @@ class QuizModel extends Database{
             // if the quiz ID does not exist in the quiz array, add it
             if (!array_key_exists($quiz_id, $quiz)) {
                 $quiz[$quiz_id] = [
-                    'question_id' => $question_id,
                     'quiz_id' => $quiz_id,
                     'questions' => []
                 ];
             }
-
     
-            // if the question text does not exist in the questions array for this quiz, add it
-            if (!array_key_exists($question_text, $quiz[$quiz_id]['questions'])) {
-                $quiz[$quiz_id]['questions'][$question_text] = [
+            // if the question ID does not exist in the questions array for this quiz, add it
+            if (!array_key_exists($question_id, $quiz[$quiz_id]['questions'])) {
+                $quiz[$quiz_id]['questions'][$question_id] = [
                     'question_id' => $question_id,
                     'question_text' => $question_text,
                     'options' => []
@@ -105,15 +131,15 @@ class QuizModel extends Database{
     
             // if the option ID is not null, add the option to the options array for this question
             if ($option_id !== null) {
-                $quiz[$quiz_id]['questions'][$question_text]['options'][] = [
+                $quiz[$quiz_id]['questions'][$question_id]['options'][] = [
                     'option_id' => $option_id,
                     'option_text' => $option_text,
                     'is_correct' => $is_correct
                 ];
             } else {
                 // if the options array has not been initialized for this question, initialize it as an empty array
-                if (!isset($quiz[$quiz_id]['questions'][$question_text]['options'])) {
-                    $quiz[$quiz_id]['questions'][$question_text]['options'] = [];
+                if (!isset($quiz[$quiz_id]['questions'][$question_id]['options'])) {
+                    $quiz[$quiz_id]['questions'][$question_id]['options'] = [];
                 }
             }
         }

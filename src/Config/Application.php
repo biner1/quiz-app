@@ -4,6 +4,7 @@ namespace App\Config;
 
 use App\Config\View as View;
 use App\controller\BaseController as Controller;
+use App\Config\exceptions\NotFoundException;
 
 class Application {
     public static Application $app;
@@ -29,13 +30,23 @@ class Application {
 
             $this->router->dispatch();
         }
+        catch(NotFoundException $e){
+            $error_page = Application::$ROOT_DIR."/src/View/error.php";
+            $this->handleExceptions($e, $error_page);
+        }
         catch(\Exception $e){
             $this->handleExceptions($e);
         }
+        
     }
 
 
-    function handleExceptions($exception){
-        echo View::render('error', ['exception' => $exception]);
+    function handleExceptions($exception, $error_page = null){
+        if($error_page == null){
+            echo $exception->getMessage();
+        }else{
+            require_once $error_page;
+            exit();
+        }
     }
 }

@@ -4,7 +4,12 @@
     </head>
 
 <body>
-    <?php require('navbar.php') ?>
+
+    <?php 
+    if (isset($_SESSION['user'])) {
+        require('navbar.php');
+    }    
+    ?>
 
     <main>
    

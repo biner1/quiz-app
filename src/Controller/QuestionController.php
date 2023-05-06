@@ -8,7 +8,7 @@ use App\Config\middlewares\AuthMiddleware;
 
 use App\Model\QuestionModel as Questions;
 
-class QuestionController{
+class QuestionController extends BaseController{
 
     public function __construct(){
         $this->registerMiddleware(new AuthMiddleware());

@@ -34,14 +34,22 @@ class QuizController extends BaseController{
             utils::redirect('quizzes');
         }
 
-        if(User::isTeacher($_SESSION['id'])){
-            $quiz = Quiz::getQuiz($_GET['id']);
-            $quiz_id = $_GET['id'];
+        $user_id = utils::getSession('id');
+        $quiz_id = $_GET['id'];
+
+        if(User::isTeacher($user_id)){
+            $quiz = Quiz::getQuizByUser($quiz_id, $user_id);
+            if(!$quiz){
+                utils::redirect('quizzes');
+            }
             $questions = Quiz::getQuestionsAndOptionsOfQuiz($quiz_id);
+            // echo "<pre>";
+            // print_r($questions);
+            // echo "</pre>";
+            // exit();
             return $this->render('quiz/quiz_teacher', ['quiz'=>$quiz, 'questions'=>$questions]);
         
         }else{
-            $quiz_id = $_GET['id'];
             $questions = Quiz::getQuestionsAndOptionsOfQuiz($quiz_id);
             return $this->render('quiz/quiz_student', ['questions'=>$questions]);
         }
@@ -59,7 +67,6 @@ class QuizController extends BaseController{
             $user = User::getUserById($user_id);
         
             $quiz = Quiz::createQuiz($title, $description, $user_id);
-            // $quiz = true;
             if($quiz){
                 utils::responde(true);
             }else{
@@ -75,13 +82,12 @@ class QuizController extends BaseController{
             $quiz_id = $_POST['update_quiz'];
             $description = $_POST['quiz_description'];
             $submittable = isset($_POST['submittable']) && $_POST['submittable'] === '1';
-        
+
             $quiz = Quiz::updateQuiz($quiz_id, $title, $description, $submittable, utils::getSession('id'));
-            // $quiz = false;
             if($quiz){
                 utils::responde(true);
             }else{
-                utils::responde(false, ['Error'=>'Error updating quiz with id '.$quiz_id]);
+                utils::responde(false, ['Error'=>'Quiz not updated with id '.$quiz_id]);
             }
         }
     }
@@ -90,9 +96,7 @@ class QuizController extends BaseController{
     public function delete(){
         if(isset($_GET['id'])){
             $quiz_id = $_GET['id'];
-            // echo $quiz_id;
             $quiz = Quiz::deleteQuiz($quiz_id);
-            // $quiz = false;
             if($quiz){
                 utils::responde(true);
             }else{

@@ -19,16 +19,24 @@ class Utilities{
     }
 
 
+    
+    static function ensure_user_is_authenticated(){
+        if(!self::is_user_authenticated()){
+            self::redirect('login');
+        }
+    }
+    
     static function is_user_authenticated(){
         return isset($_SESSION['id']);
     }
 
-    static function ensure_user_is_authenticated(){
-        if(!is_user_authenticated()){
-            redirect('login');
-        }
+    static function countQuestionsSubmitted($array) {
+        $count = count(array_filter($array, function($key) {
+            return preg_match('/^question_/', $key);
+        }, ARRAY_FILTER_USE_KEY));
+    
+        return $count;
     }
-
 
     static function get_logged_in_user(){
         return $_SESSION['id'];
@@ -52,7 +60,7 @@ class Utilities{
     // Update user's password in database
     static function updateUserPassword($email, $password) {
         $sql = 'UPDATE user SET password = :password WHERE email = :email';
-        return Mysql::query($sql, [':password'=>md5($password), ':email'=>$email]);
+        return Database::query($sql, [':password'=>md5($password), ':email'=>$email]);
     }
 
 

@@ -21,7 +21,7 @@ $router->get('custom', function(){
     echo "This custom route";
 });
 
-$router->get('', [HomeController::class, 'index']);
+$router->get('/', [HomeController::class, 'index']);
 $router->get('login', [AuthController::class, 'login']);
 $router->get('signup', [AuthController::class, 'signup']);
 $router->get('logout', [AuthController::class, 'logout']);

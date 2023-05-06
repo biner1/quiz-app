@@ -3,9 +3,9 @@
 
 namespace App\Config\middlewares;
 
-use App\Config\exceptions\ForbiddenException;
-
 use App\config\Utilities as utils;
+use App\Config\Application;
+use App\Config\exceptions\ForbiddenException;
 
 class AuthMiddleware extends BaseMiddleware
 {

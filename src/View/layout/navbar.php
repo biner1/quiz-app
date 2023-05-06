@@ -33,7 +33,21 @@
         <a class="nav-link" href="signup"><i class="fas fa-user-plus"></i> Signup</a>
       </li>
           <?php endif; ?>
-    </ul>
+        </ul>
+        
+        <button class="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown"
+                        aria-haspopup="true" aria-expanded="false">
+
+                        <!-- <img src="asset/image/user.png" alt="" style='width: 30px'> -->
+                        <?= $_SESSION['user'] ?>
+                    </button>
+                    
+                    <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+                        <a class="dropdown-item" href="account" >
+                            account</a>
+
+                        <a class="dropdown-item" href="logout">Logout</a>
+                    </div>
   </div>
 
   </div>

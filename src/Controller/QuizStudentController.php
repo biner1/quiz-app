@@ -25,6 +25,7 @@ class QuizStudentController extends BaseController{
         $score = 0;
         $total_questions = 0;
 
+
         foreach ($_POST as $key => $value) {
 
             // Check if the key is a question answer
@@ -49,8 +50,20 @@ class QuizStudentController extends BaseController{
             }
         }
 
+        $number_of_questions = Quiz::getNumberOfQuestions($quiz_id);
+
+        if($number_of_questions != $total_questions){
+            utils::responde(false, ['Error'=>'You must answer all the questions.']);
+        }
+
         // Calculate the percentage score
         $percentage_score = round(($score / $total_questions) * 100);
+
+        $is_submittable = Quiz::isSubmittable($quiz_id);
+
+        if (!$is_submittable) {
+            utils::responde(false, ['Error'=>'You can not submit this quiz. It is not submittable.']);
+        }
 
         $quiz_attempt_id = QuizAttempt::createQuizAttemptAndReturnId($quiz_id, $user_id, $percentage_score);
 
@@ -62,7 +75,7 @@ class QuizStudentController extends BaseController{
             }
         }
 
-          utils::redirect('quizzes');
+          utils::responde(true, ['Success'=>'Quiz submitted successfully.']);
     }
 
 

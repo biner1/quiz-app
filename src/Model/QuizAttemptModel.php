@@ -19,6 +19,7 @@ class QuizAttemptModel extends Database{
             return;
         }
         $sql = "INSERT INTO `quiz_attempts` (`quiz_id`, `user_id`, `score`) VALUES (:quiz_id, :user_id, :score)";
+        
         $sql_parms = [':quiz_id'=>$quiz_id, ':user_id'=>$user_id, ':score'=>$score];
         $smt = $db->prepare($sql);
         $smt->execute($sql_parms);

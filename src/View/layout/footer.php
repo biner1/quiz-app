@@ -9,10 +9,8 @@
     </div>
 </footer>
 
-<script src="public/assets/js/jquery-3.2.1.slim.min.js">
-</script>
-<script src="public/assets/js/popper.min.js">
-</script>
-<script src="public/assets/js/bootstrap.min.js">
-</script>
+
+<!-- <script src="/mvc/public/assets/js/popper.min.js"></script> -->
+<script src="/mvc/public/assets/js/bootstrap.bundle.min.js"></script>
+<!-- <script src="/mvc/public/assets/js/bootstrap.min.js"></script> -->
 

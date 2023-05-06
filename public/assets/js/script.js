@@ -90,7 +90,7 @@ const sendFormData = async (formId, successRedirect, errorId, url) => {
 
   // quiz
   sendFormData('create-quiz-form', 'quizzes', 'create-quiz-error', 'quiz/store');
-  sendFormData('take-quiz-form', 'qizzes', 'take-quiz-error','quiz/take')
+  sendFormData('take-quiz-form', 'quizzes', 'take-quiz-error','quiz/take')
   sendMultipleFormsData('.update-quiz-form', 'quizzes', 'quiz-error', 'quiz/update');
   // sendMultipleFormsData('.delete-quiz-form', 'quizzes', 'quiz-error', 'quiz/delete');
   
