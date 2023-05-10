@@ -7,9 +7,9 @@ use App\Config\Database;
 class QuizModel extends Database{
 
     // quiz crud
-    static function createQuiz($title, $description, $user_id){
-        $sql = "INSERT INTO `quizzes` (`title`, `description`, `user_id`) VALUES (:title, :description, :user_id)";
-        return Database::execute($sql, [':title'=>$title, ':description'=>$description, ':user_id'=>$user_id]);
+    static function createQuiz($title, $description, $user_id, $mode){
+        $sql = "INSERT INTO `quizzes` (`title`, `description`, `user_id`, `mode`) VALUES (:title, :description, :user_id, :mode)";
+        return Database::execute($sql, [':title'=>$title, ':description'=>$description, ':user_id'=>$user_id, ':mode'=>$mode]);
     }
 
     static function getQuizzes(){
@@ -19,7 +19,7 @@ class QuizModel extends Database{
 
     static function getQuizzesByUser($user_id){
         // $sql = "SELECT * FROM `quizzes` WHERE `user_id` = :user_id";
-        $sql ="SELECT quizzes.id, quizzes.title, quizzes.created_at, quizzes.description,
+        $sql ="SELECT quizzes.id, quizzes.mode, quizzes.title, quizzes.created_at, quizzes.description,
             submittable, COUNT(questions.id) as question_count 
         FROM quizzes 
         LEFT JOIN questions ON quizzes.id = questions.quiz_id 
@@ -75,6 +75,12 @@ class QuizModel extends Database{
         $sql = "SELECT `submittable` FROM `quizzes` WHERE `id` = :quiz_id";
         $result = Database::query($sql, [':quiz_id'=>$quiz_id]);
         return $result[0]['submittable'] == 1;
+    }
+
+    static function isQuizSubmitted($quiz_id,$user_id){
+        $sql = "SELECT * FROM quiz_attempts WHERE quiz_id = :quiz_id AND user_id = :user_id AND completed = 0";
+        $result = Database::query($sql, [':quiz_id'=>$quiz_id, ':user_id'=>$user_id]);
+        return count($result) > 0;
     }
 
     static function isUpdatable($quiz_id, $user_id){

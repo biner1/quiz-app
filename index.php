@@ -34,7 +34,10 @@ $router->get('quiz/delete', [QuizController::class, 'delete']);
 $router->post('quiz/update', [QuizController::class, 'update']);
 $router->post('quiz/store', [QuizController::class, 'store']);
 $router->post('quiz/take', [QuizStudentController::class, 'store']);
+$router->post('quiz/take/one', [QuizStudentController::class, 'take']);
 
+
+$router->post('all', [QuizController::class, 'all']);
 
 $router->get('question/delete', [QuestionController::class, 'delete']);
 $router->post('question/store', [QuestionController::class, 'store']);

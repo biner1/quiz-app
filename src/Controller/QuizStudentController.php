@@ -74,9 +74,41 @@ class QuizStudentController extends BaseController{
                 AttemptAnswers::createAttemptAnswer($quiz_attempt_id, $question_id, $option_id);
             }
         }
-
-          utils::responde(true, ['Success'=>'Quiz submitted successfully.']);
+        QuizAttempt::setQuizAttemptCompleted($quiz_attempt_id);
+        utils::responde(true, ['Success'=>'Quiz submitted successfully.']);
     }
+
+
+    public function take(){
+        $quiz_id = $_POST['quiz_id'];
+        $quiz = Quiz::getQuiz($quiz_id)[0];
+        $user_id = utils::getSession('id'); 
+        
+        if ($quiz["submittable"]) {
+            
+            $quiz_attempt_id = QuizAttempt::getQuizAttemptUnfinished($quiz_id, $user_id)[0]['id'];
+            $current_question_id = QuizAttempt::getCurrentQuestionId($quiz_attempt_id)[0]['current_question_id'];
+
+            $option_id = $_POST["option"];
+            AttemptAnswers::createAttemptAnswer($quiz_attempt_id, $current_question_id, $option_id);
+
+            $next_question = Question::getNextQuestion($quiz_id, $current_question_id)[0]??0;
+
+            if ($next_question) {
+                QuizAttempt::setCurrentQuestionId($quiz_attempt_id, $next_question['id']);
+                $options = Option::getOptions($next_question['id']);
+                utils::responde(true, ['question'=> $next_question,'options'=> $options]);
+            } else {
+                QuizAttempt::setQuizAttemptCompleted($quiz_attempt_id);
+                utils::responde(true, ['Success'=>'Quiz submitted successfully.', 'redirect'=>'quizzes']);
+            }
+
+        }else{
+            utils::responde(false, ['Error'=>'You can not take this quiz. It is not submittable.']);
+        }
+
+    }
+
 
 
 }

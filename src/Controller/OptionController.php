@@ -9,7 +9,7 @@ use App\Config\middlewares\AuthMiddleware;
 use App\Model\OptionModel as Options;
 
 
-class OptionController{
+class OptionController extends BaseController{
 
     public function __construct(){
         return $this->registerMiddleware(new AuthMiddleware());

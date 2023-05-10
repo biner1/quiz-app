@@ -77,6 +77,7 @@ class Utilities{
                 $response['errors'] = $data;
         }
         echo json_encode($response);
+        exit();
     }
 
     static function validateSignupInputs($name, $email, $password, $confirm_password){

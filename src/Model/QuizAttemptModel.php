@@ -8,9 +8,11 @@ use App\Config\Database;
 
 class QuizAttemptModel extends Database{
     // quiz attempt crud
-    static function createQuizAttempt($quiz_id, $user_id, $score){
-        $sql = "INSERT INTO `quiz_attempts` (`quiz_id`, `user_id`, `score`) VALUES (:quiz_id, :user_id, :score)";
-        return Database::execute($sql, [':quiz_id'=>$quiz_id, ':user_id'=>$user_id, ':score'=>$score]);
+    static function createQuizAttempt($quiz_id, $user_id, $current_question_id, $score){
+        $sql = "INSERT INTO `quiz_attempts` (`quiz_id`, `user_id`, current_question_id, `score`) 
+        VALUES (:quiz_id, :user_id, :current_question_id, :score)";
+        return Database::execute($sql, [':quiz_id'=>$quiz_id, ':user_id'=>$user_id, ':score'=>$score,
+         ':current_question_id'=>$current_question_id]);
     }
 
     static function createQuizAttemptAndReturnId($quiz_id, $user_id, $score){
@@ -39,9 +41,29 @@ class QuizAttemptModel extends Database{
         return Database::query($sql, [':user_id'=>$user_id]);
     }
 
+    static function setQuizAttemptCompleted($id){
+        $sql = "UPDATE `quiz_attempts` SET `completed` = 1 WHERE `id` = :id";
+        return Database::execute($sql, [':id'=>$id]);
+    }
+
     static function getQuizAttempt($id){
         $sql = "SELECT * FROM `quiz_attempts` WHERE `id` = :id";
         return Database::query($sql, [':id'=>$id]);
+    }
+
+    static function getQuizAttemptUnfinished($quiz_id, $user_id){
+        $sql = "SELECT * FROM `quiz_attempts` WHERE `quiz_id` = :quiz_id AND `user_id` = :user_id AND `completed` = 0";
+        return Database::query($sql, [':quiz_id'=>$quiz_id, ':user_id'=>$user_id]);
+    }
+
+    static function getCurrentQuestionId($quiz_attempt_id){
+        $sql = "SELECT `current_question_id` FROM `quiz_attempts` WHERE `id` = :id";
+        return Database::query($sql, [':id'=>$quiz_attempt_id]);
+    }
+
+    static function setCurrentQuestionId($quiz_attempt_id, $question_id){
+        $sql = "UPDATE `quiz_attempts` SET `current_question_id` = :q_id WHERE `id` = :id";
+        return Database::execute($sql, [':id'=>$quiz_attempt_id, ':q_id'=>$question_id]);
     }
 
     static function updateQuizAttemptScore($id, $score){
