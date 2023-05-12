@@ -92,7 +92,6 @@ const sendFormData = async (formId, successRedirect, errorId, url) => {
   sendFormData('create-quiz-form', 'quizzes', 'create-quiz-error', 'quiz/store');
   sendFormData('take-quiz-form', 'quizzes', 'take-quiz-error','quiz/take')
   sendMultipleFormsData('.update-quiz-form', 'quizzes', 'quiz-error', 'quiz/update');
-  // sendMultipleFormsData('.delete-quiz-form', 'quizzes', 'quiz-error', 'quiz/delete');
   
   // question
   sendFormData('create-question-form', 'quizzes', 'create-question-error', 'question/store');
@@ -102,6 +101,13 @@ const sendFormData = async (formId, successRedirect, errorId, url) => {
   sendMultipleFormsData('.create-option-form', 'quizzes', 'option-error', 'option/store');
   sendMultipleFormsData('.delete-option-form', 'quizzes', 'option-error', 'option/delete');
   sendMultipleFormsData('.update-option-form', 'quizzes', 'option-error', 'option/update');
+
+  // admin 
+  sendFormData('update-account-admin', 'users', 'update-error', 'users/update');
+  sendFormData('change-password-admin', 'users', 'change-password-error', 'users/password');
+
+
+
 
 
   const image = document.getElementById('image');
@@ -135,36 +141,39 @@ const sendFormData = async (formId, successRedirect, errorId, url) => {
     });
   }
 
-const delQuizLink = document.querySelectorAll('.delete-quiz-link');
-if (delQuizLink) {
-  delQuizLink.forEach((link) => {
-    link.addEventListener('click', async (event) => {
-      event.preventDefault();
-      try{
-        const url = link.getAttribute('href');
-        const response = await fetch(url, {
-          method: 'GET',
-        });
-        if (response.ok) {
-          const text = await response.json();
-          if (text['success'] === true) {
-            // window.location.href = 'quiz';
-            console.log('success');
+
+const delLinkRequest = (anchorTags, successRedirect, errorId) => {
+  const delLink = document.querySelectorAll(anchorTags);
+  if (delLink) {
+    delLink.forEach((link) => {
+      link.addEventListener('click', async (event) => {
+        event.preventDefault();
+        try{
+          const url = link.getAttribute('href');
+          const response = await fetch(url, {
+            method: 'GET',
+          });
+          if (response.ok) {
+            const text = await response.json();
+            if (text['success'] === true) {
+              window.location.href = successRedirect;
+            } else {
+              printErrors(text['errors'], errorId);
+            }
           } else {
-            printErrors(text['errors'], 'quiz-error');
+            console.log('Error: ' + response.status);
           }
-        } else {
-          console.log('Error: ' + response.status);
         }
-      } catch (error) {
-        console.log('Error: ' + error);
-      }
+        catch (error) {
+          console.log('Error: ' + error);
+        }
+      });
     });
-  });
+  }
 }
 
-  
-
+delLinkRequest('.delete-quiz-link', 'quizzes', 'quiz-error');
+delLinkRequest('.delete-user-link', 'users', 'user-error');
 
 
 function printErrors(errors, errorId) {

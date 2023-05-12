@@ -15,7 +15,7 @@
       <?php foreach($users as $user):?>
         <tr>
           <td><?= $user['id']?></td>
-          <td><a href="users?id=<?= $user['id']?>"><?= $user['name']?></a></td>
+          <td><a href="users?user=<?= $user['id']?>"><?= $user['name']?></a></td>
           <td><?= $user['email']?></td>
           <td><?php
           if($user['is_admin']){
@@ -27,10 +27,16 @@
                 }
           ?>
           </td>
+              <td>
+                <a href="users/delete?user_id=<?= $user['id']; ?>" class="btn btn-danger delete-user-link">Delete</a>
+              </td>
+
         </tr>
         <?php endforeach; ?>
-       
 
       </tbody>
     </table>
+
+    <div class="user-error"></div>
+
   </div>

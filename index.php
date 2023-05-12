@@ -30,6 +30,11 @@ $router->post('login', [AuthController::class, 'login']);
 $router->post('signup', [AuthController::class, 'signup']);
 
 $router->get('admin/users', [AdminController::class, 'index']);
+$router->post('admin/users/update', [AdminController::class, 'updateUser']);
+$router->post('admin/users/password', [AdminController::class, 'changeUserPassword']);
+$router->get('admin/users/delete', [AdminController::class, 'deleteUser']);
+
+
 
 $router->get('quiz', [QuizController::class, 'show']);
 $router->get('quizzes', [QuizController::class, 'index']);

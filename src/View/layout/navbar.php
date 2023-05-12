@@ -9,28 +9,35 @@
     <ul class="navbar-nav mr-auto">
       <?php if(isset($_SESSION['user'])): ?>
       <li class="nav-item">
-        <a class="nav-link" href="quizzes"><i class="fas fa-book"></i> Quizzes</a>
+        <a class="nav-link" href="/mvc/quizzes"><i class="fas fa-book"></i> Quizzes</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a class="nav-link" href="/mvc/dashboard"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="leaderboard"><i class="fas fa-clipboard-list"></i> Leaderboard</a>
+        <a class="nav-link" href="/mvc/leaderboard"><i class="fas fa-clipboard-list"></i> Leaderboard</a>
       </li>
     </ul>
     <ul class="navbar-nav">
       <li class="nav-item">
-        <a class="nav-link" href="account"><i class="fas fa-user-circle"></i> Account</a>
+        <a class="nav-link" href="/mvc/account"><i class="fas fa-user-circle"></i> Account</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
+        <a class="nav-link" href="/mvc/logout"><i class="fas fa-sign-out-alt"></i> Logout</a>
       </li>
+
+        <?php if(isset($_SESSION['is_admin']) && $_SESSION['is_admin'] == 1 ): ?>
+        <li class="nav-item">
+          <a class="nav-link" href="/mvc/admin/users"><i class="fas fa-user-cog"></i> admin</a>
+        </li>
+        <?php endif; ?>
+
         <?php else: ?>
       <li class="nav-item">
-        <a class="nav-link" href="login"><i class="fas fa-sign-in-alt"></i> Login</a>
+        <a class="nav-link" href="/mvc/login"><i class="fas fa-sign-in-alt"></i> Login</a>
       </li>
       <li class="nav-item">
-        <a class="nav-link" href="signup"><i class="fas fa-user-plus"></i> Signup</a>
+        <a class="nav-link" href="/mvc/signup"><i class="fas fa-user-plus"></i> Signup</a>
       </li>
           <?php endif; ?>
         </ul>

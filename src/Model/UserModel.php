@@ -11,6 +11,11 @@ class UserModel extends Database{
         return Database::query($sql);
     }
 
+    static function deleteUser($id){
+        $sql = "DELETE FROM `users` WHERE `id` = :id";
+        return Database::execute($sql, [':id'=>$id]);
+    }
+
     static function getUserByEmail($emailLogin){
         $sql = "SELECT * FROM `user` WHERE `email` = :email";
         return Database::query($sql, [':email'=>$emailLogin]);
@@ -43,10 +48,20 @@ class UserModel extends Database{
         return Database::execute($sql, [':name'=>$name, ':phone'=>$phone, ':email'=>$email, ':id'=>$id]);
     }
 
+    static function updateUserInformation($name, $phone, $email, $is_teacher, $is_admin, $id){
+        $sql = ("UPDATE `users` SET `name` = :name, `phone` = :phone, `email` = :email, `is_teacher` = :is_teacher, `is_admin` = :is_admin WHERE `users`.`id` = :id");
+        return Database::execute($sql, [':name'=>$name, ':phone'=>$phone, ':email'=>$email, ':is_teacher'=>$is_teacher, ':is_admin'=>$is_admin, ':id'=>$id]);
+    }
+
     static function changeUserPassword($password1, $password2, $id){
         $sql = "UPDATE `users` SET `password` = :password WHERE `id` = :id and `password` = :password1";
         $params = array(':password' => $password2, ':id' => $id, ':password1' => $password1);
         return Database::execute($sql, $params);
+    }
+
+    static function changePassword($password,$id){
+        $sql = "UPDATE `users` SET `password` = :password WHERE `id` = :id";
+        return Database::execute($sql, [':password'=>$password, ':id'=>$id]);
     }
 
     static function getUserImage($id){

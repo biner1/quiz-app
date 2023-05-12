@@ -12,7 +12,7 @@ use App\Model\OptionModel as Options;
 class OptionController extends BaseController{
 
     public function __construct(){
-        return $this->registerMiddleware(new AuthMiddleware());
+        $this->registerMiddleware(new AuthMiddleware());
     }
 
     public function store(){
@@ -21,9 +21,8 @@ class OptionController extends BaseController{
             $option_text = $_POST['option-text'];
             $is_correct = isset($_POST['is_correct']) && $_POST['is_correct'] === '1';
         
-            
             $option = Options::createOption($question_id, $option_text, $is_correct);
-            // $option = true;
+
             if($option){
                 utils::responde(true);
             }else{
@@ -37,10 +36,9 @@ class OptionController extends BaseController{
         if(isset($_GET['id'])){
             $option_id = $_GET['id'];
             $option = Options::deleteOption($option_id);
-            // $option = true;
+            
             if($option){
                 utils::responde(true);
-                // utils::redirect('quiz?id='.$_GET['qid']);
             }else{
                 utils::responde(false,['Error'=>'Error deleting option']);
             }
@@ -54,10 +52,9 @@ class OptionController extends BaseController{
             $option_text = $_POST['option_text'];
             $is_correct = isset($_POST['is_correct']) && $_POST['is_correct'] === '1';
             $option = Options::updateOption($option_id, $option_text, $is_correct);
-            // $option = false;
+            
             if($option){
                 utils::responde(true);
-                // utils::redirect("quiz?id=".$_POST['qid']);
             }else{
                 utils::responde(false, ['Error'=>'Error updating option']);
             }

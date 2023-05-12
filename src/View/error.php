@@ -16,7 +16,7 @@
         <h1 class="display-1 text-danger"><i class="fas fa-exclamation-triangle"></i></h1>
         <h2>Oops! <?php echo $exception->getCode()." " ?><?php echo $exception->getMessage(); ?>.</h2>
         <p class="lead">We're sorry, but resource you are trying to access is not available</p>
-        <a href="login" class="btn btn-primary mt-3"><i class="fas fa-home"></i> Go to Login</a>
+        <a href="/mvc/login" class="btn btn-primary mt-3"><i class="fas fa-home"></i> Go to Login</a>
       </div>
     </div>
   </div>

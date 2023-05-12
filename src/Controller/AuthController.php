@@ -26,6 +26,8 @@ class AuthController extends BaseController{
                 utils::setSession('id', $user['id']);
                 utils::setSession('user', $user['name']);
                 utils::setSession('is_teacher', $user['is_teacher']);
+                utils::setSession('is_admin', $user['is_admin']);
+                
                 utils::responde(true);
                 // utils::redirect('dashboard');
             } else {

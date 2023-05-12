@@ -50,6 +50,12 @@ class QuizModel extends Database{
         return Database::query($sql);
     }
 
+    static function getAttemptedQuizzesByUser($user_id){
+        $sql = "SELECT * FROM quizzes as q where `q`.`id` in (
+            select distinct qa.quiz_id from `quiz_attempts` as qa WHERE `qa`.`user_id` = :user_id)";
+        return Database::query($sql, [':user_id'=>$user_id]);
+    }
+
     static function UpdateQuizSubmittable($id, $submittable){
         $sql = "UPDATE `quizzes` SET `submittable` = :submittable WHERE `id` = :id";
         return Database::execute($sql, [':id'=>$id, ':submittable'=>$submittable]);
