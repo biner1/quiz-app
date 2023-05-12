@@ -4,8 +4,6 @@ namespace App\Model;
 
 use App\Config\Database;
 
-
-
 class QuizAttemptModel extends Database{
     // quiz attempt crud
     static function createQuizAttempt($quiz_id, $user_id, $current_question_id, $score){
@@ -66,10 +64,33 @@ class QuizAttemptModel extends Database{
         return Database::execute($sql, [':id'=>$quiz_attempt_id, ':q_id'=>$question_id]);
     }
 
+    static function setQuizAttemptScore($quiz_attempt_id){
+        $score = self::calculateScore($quiz_attempt_id);
+        return self::updateQuizAttemptScore($quiz_attempt_id, $score);
+    }
+
+    static function calculateScore($quiz_attempt_id){
+        $sql = "SELECT qa.id AS attempt_id, qa.quiz_id, SUM(op.is_correct) AS score
+        FROM quiz_attempts AS qa
+        JOIN attempt_answers AS aa ON qa.id = aa.attempt_id
+        JOIN options AS op ON aa.option_id = op.id
+        WHERE qa.id = :quiz_attempt_id
+        GROUP BY qa.id;
+        ";
+        $result = Database::query($sql, [':quiz_attempt_id'=>$quiz_attempt_id]);
+        $score = $result[0]['score'];
+        $quiz_id = $result[0]['quiz_id'];
+        $total_questions = QuizModel::getNumberOfQuestions($quiz_id);
+        $percentage_score = round(($score / $total_questions) * 100);
+        return $percentage_score;
+    }
+
+    
     static function updateQuizAttemptScore($id, $score){
         $sql = "UPDATE `quiz_attempts` SET `score` = :score WHERE `id` = :id";
         return Database::execute($sql, [':id'=>$id, ':score'=>$score]);
     }
+    
 
     static function deleteQuizAttempt($id){
         $sql = "DELETE FROM `quiz_attempts` WHERE `id` = :id";

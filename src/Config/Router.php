@@ -33,32 +33,7 @@ class Router {
         $route = $path;
         $route = str_replace('/mvc/', '', $path);
         return empty($route) ? '/' : $route;
-    }
-
-    // function getRoute($uri = $_SERVER['REQUEST_URI']) {
-    //     $requestUri = parse_url($_SERVER['REQUEST_URI'], PHP_URL_PATH);
-    //     $requestMethod = $_SERVER['REQUEST_METHOD'];
-    
-    //     $uriSegments = explode('/', $uri);
-    //     $requestUriSegments = explode('/', $requestUri);
-    
-    //     if (count($uriSegments) !== count($requestUriSegments)) {
-    //         return null;
-    //     }
-    
-    //     $params = [];
-    
-    //     for ($i = 0; $i < count($uriSegments); $i++) {
-    //         if ($uriSegments[$i][0] === '{' && $uriSegments[$i][strlen($uriSegments[$i]) - 1] === '}') {
-    //             $params[] = $requestUriSegments[$i];
-    //         } else if ($uriSegments[$i] !== $requestUriSegments[$i]) {
-    //             return null;
-    //         }
-    //     }
-    
-    //     return $params;
-    // }
-    
+    }    
     
     
     function getMethod() {

@@ -5,6 +5,7 @@ require_once __DIR__ .'/vendor/autoload.php';
 use App\Config\Application;
 use App\Config\Router;
 
+use App\Controller\AdminController;
 use App\Controller\UserController;
 use App\Controller\HomeController;
 use App\Controller\AuthController;
@@ -27,6 +28,8 @@ $router->get('signup', [AuthController::class, 'signup']);
 $router->get('logout', [AuthController::class, 'logout']);
 $router->post('login', [AuthController::class, 'login']);
 $router->post('signup', [AuthController::class, 'signup']);
+
+$router->get('admin/users', [AdminController::class, 'index']);
 
 $router->get('quiz', [QuizController::class, 'show']);
 $router->get('quizzes', [QuizController::class, 'index']);

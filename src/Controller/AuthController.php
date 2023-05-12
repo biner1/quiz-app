@@ -2,7 +2,6 @@
 
 namespace App\Controller;
 
-use App\Config\View;
 use App\Config\Utilities as utils;
 use App\Config\middlewares\NotAuthenticatedMiddleware;
 

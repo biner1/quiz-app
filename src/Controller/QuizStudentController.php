@@ -100,6 +100,7 @@ class QuizStudentController extends BaseController{
                 utils::responde(true, ['question'=> $next_question,'options'=> $options]);
             } else {
                 QuizAttempt::setQuizAttemptCompleted($quiz_attempt_id);
+                QuizAttempt::setQuizAttemptScore($quiz_attempt_id);
                 utils::responde(true, ['Success'=>'Quiz submitted successfully.', 'redirect'=>'quizzes']);
             }
 

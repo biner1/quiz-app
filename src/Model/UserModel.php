@@ -5,27 +5,10 @@ namespace App\Model;
 use App\Config\Database;
 
 class UserModel extends Database{
-    private $id;
-    private $name;
-    private $username;
-    private $password;
 
-    function __construct($name, $email, $password, $is_teacher)
-    {
-        $this->id = rand();
-        $this->name = $name; 
-        $this->email = $email; 
-        $this->password = md5($password);
-        $this->is_teacher = $is_teacher;
-
-    }
-
-    function getName(){
-        return $this->name;
-    }
-
-    function getEmail(){
-        return $this->email;
+    static function getUsers(){
+        $sql = "SELECT * FROM `users` order by `is_admin` desc, `is_teacher` desc, `id` asc";
+        return Database::query($sql);
     }
 
     static function getUserByEmail($emailLogin){
@@ -49,7 +32,7 @@ class UserModel extends Database{
             $sql = "INSERT INTO `users` (`email`, `password`, `name`, `is_teacher`) VALUES (:email, :password, :fullName, :is_teacher)";
             return Database::execute($sql, [':email'=>$email, ':password'=>$password, ':fullName'=>$name, ':is_teacher'=>$is_teacher]);
         }
-        catch(PDOException $e)
+        catch(\PDOException $e)
         {
             return false;
         }
@@ -84,6 +67,11 @@ class UserModel extends Database{
     static function isTeacher($id){
         $sql = "SELECT is_teacher FROM users WHERE id = :id";
         return Database::query($sql, [':id'=>$id])[0]['is_teacher'];
+    }
+
+    static function isAdmin($id){
+        $sql = "SELECT is_admin FROM users WHERE id = :id";
+        return Database::query($sql, [':id'=>$id])[0]['is_admin'];
     }
 
 }
