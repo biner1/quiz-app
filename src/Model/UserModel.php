@@ -4,89 +4,108 @@ namespace App\Model;
 
 use App\Config\Database;
 
-class UserModel extends Database{
+class UserModel extends Database
+{
 
-    static function getUsers(){
+    static function getUsers()
+    {
         $sql = "SELECT * FROM `users` order by `is_admin` desc, `is_teacher` desc, `id` asc";
         return Database::query($sql);
     }
 
-    static function deleteUser($id){
+    static function deleteUser($id)
+    {
         $sql = "DELETE FROM `users` WHERE `id` = :id";
-        return Database::execute($sql, [':id'=>$id]);
+        return Database::execute($sql, [':id' => $id]);
     }
 
-    static function getUserByEmail($emailLogin){
+    static function searchUsers($search)
+    {
+        $sql = "SELECT * FROM `users` WHERE `name` LIKE :search or `email` LIKE :search";
+        return Database::query($sql, [':search' => '%' . $search . '%']);
+    }
+
+    static function getUserByEmail($emailLogin)
+    {
         $sql = "SELECT * FROM `user` WHERE `email` = :email";
-        return Database::query($sql, [':email'=>$emailLogin]);
+        return Database::query($sql, [':email' => $emailLogin]);
     }
 
-    static function getUserById($id){
+    static function getUserById($id)
+    {
         $sql = "SELECT * FROM `users` WHERE `id` = :id";
-        return Database::query($sql, [':id'=>$id]);
+        return Database::query($sql, [':id' => $id]);
     }
 
-    static function getUserByEmailPassword($email, $password){
+    static function getUserByEmailPassword($email, $password)
+    {
         $sql = "SELECT * FROM `users` WHERE `email` = :email and `password` = :password";
-        return Database::query($sql, [':email'=>$email, ':password'=>$password]);
+        return Database::query($sql, [':email' => $email, ':password' => $password]);
     }
 
-    static function createUser($email, $password, $name, $is_teacher){
-        try
-        {
+    static function createUser($email, $password, $name, $is_teacher)
+    {
+        try {
             $sql = "INSERT INTO `users` (`email`, `password`, `name`, `is_teacher`) VALUES (:email, :password, :fullName, :is_teacher)";
-            return Database::execute($sql, [':email'=>$email, ':password'=>$password, ':fullName'=>$name, ':is_teacher'=>$is_teacher]);
-        }
-        catch(\PDOException $e)
-        {
+            return Database::execute($sql, [':email' => $email, ':password' => $password, ':fullName' => $name, ':is_teacher' => $is_teacher]);
+        } catch (\PDOException $e) {
             return false;
         }
     }
 
-    static function updateUser($name, $phone, $email, $id){
+    static function updateUser($name, $phone, $email, $id)
+    {
         $sql = ("UPDATE `users` SET `name` = :name, `phone` = :phone, `email` = :email WHERE `users`.`id` = :id");
-        return Database::execute($sql, [':name'=>$name, ':phone'=>$phone, ':email'=>$email, ':id'=>$id]);
+        return Database::execute($sql, [':name' => $name, ':phone' => $phone, ':email' => $email, ':id' => $id]);
     }
 
-    static function updateUserInformation($name, $phone, $email, $is_teacher, $is_admin, $id){
+    static function updateUserInformation($name, $phone, $email, $is_teacher, $is_admin, $id)
+    {
         $sql = ("UPDATE `users` SET `name` = :name, `phone` = :phone, `email` = :email, `is_teacher` = :is_teacher, `is_admin` = :is_admin WHERE `users`.`id` = :id");
-        return Database::execute($sql, [':name'=>$name, ':phone'=>$phone, ':email'=>$email, ':is_teacher'=>$is_teacher, ':is_admin'=>$is_admin, ':id'=>$id]);
+        return Database::execute($sql, [':name' => $name, ':phone' => $phone, ':email' => $email, ':is_teacher' => $is_teacher, ':is_admin' => $is_admin, ':id' => $id]);
     }
 
-    static function changeUserPassword($password1, $password2, $id){
+    static function changeUserPassword($password1, $password2, $id)
+    {
         $sql = "UPDATE `users` SET `password` = :password WHERE `id` = :id and `password` = :password1";
         $params = array(':password' => $password2, ':id' => $id, ':password1' => $password1);
         return Database::execute($sql, $params);
     }
 
-    static function changePassword($password,$id){
+    static function changePassword($password, $id)
+    {
         $sql = "UPDATE `users` SET `password` = :password WHERE `id` = :id";
-        return Database::execute($sql, [':password'=>$password, ':id'=>$id]);
+        return Database::execute($sql, [':password' => $password, ':id' => $id]);
     }
 
-    static function getUserImage($id){
+    static function getUserImage($id)
+    {
         $image = Database::query("SELECT image FROM users WHERE id = :id", [':id' => $id])[0]['image'];
         return $image;
     }
 
-    static function updateUserImage($id, $newImageName){
+    static function updateUserImage($id, $newImageName)
+    {
         $query = "UPDATE users SET image = :newImageName WHERE id = :id";
         return Database::execute($query, [':id' => $id, ':newImageName' => $newImageName]);
     }
 
-    static function insertToken($email, $token){
+    static function insertToken($email, $token)
+    {
         $sql = 'INSERT INTO password_reset (email, token, created_at) VALUES (:email, :token, NOW())';
-        return Database::execute($sql, [':email'=>$email, ':token'=>$token]);
+        return Database::execute($sql, [':email' => $email, ':token' => $token]);
     }
 
-    static function isTeacher($id){
+    static function isTeacher($id)
+    {
         $sql = "SELECT is_teacher FROM users WHERE id = :id";
-        return Database::query($sql, [':id'=>$id])[0]['is_teacher'];
+        return Database::query($sql, [':id' => $id])[0]['is_teacher'];
     }
 
-    static function isAdmin($id){
+    static function isAdmin($id)
+    {
         $sql = "SELECT is_admin FROM users WHERE id = :id";
-        return Database::query($sql, [':id'=>$id])[0]['is_admin'];
+        return Database::query($sql, [':id' => $id])[0]['is_admin'];
     }
 
 }

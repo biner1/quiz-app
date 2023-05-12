@@ -38,7 +38,7 @@ const sendFormData = async (formId, successRedirect, errorId, url) => {
     }
   };
 
-  function sendMultipleFormsData(form, successRedirect, errorId, url='controller/option-controller.php'){
+  function sendMultipleFormsData(form, successRedirect, errorId, url=''){
     const forms = document.querySelectorAll(form);
     if (forms) {
       forms.forEach((form) => {
@@ -174,6 +174,37 @@ const delLinkRequest = (anchorTags, successRedirect, errorId) => {
 
 delLinkRequest('.delete-quiz-link', 'quizzes', 'quiz-error');
 delLinkRequest('.delete-user-link', 'users', 'user-error');
+
+
+// TODO: make search requests ayanc render the data
+const searchRequests = (fromId) => {
+  const form = document.getElementById(fromId);
+  if (form) {
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      let searchValue = document.getElementById("search-key").value;
+      const url = form.getAttribute('action') +'?search='+ searchValue;
+      try {
+        const response = await fetch(url, {
+          method: 'GET',
+        });
+        if (response.ok) {
+          const text = await response.json();
+          if (text['success'] === true) {
+            window.location.href = url;
+          }
+        } else {
+          console.log('Error: ' + response.status);
+        }
+      } catch (error) {
+        console.log('Error: ' + error);
+      }
+    });
+  }
+}
+// searchRequests('search-quizzes');
+// searchRequests('search-users');
+
 
 
 function printErrors(errors, errorId) {

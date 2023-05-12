@@ -1,23 +1,22 @@
 <html>
-    <head>
+
+<head>
     <?php require('head.php'); ?>
-    </head>
+</head>
 
 <body>
 
-    <?php 
-    if (isset($_SESSION['user'])) {
-        require('navbar.php');
-    }    
+    <?php
+    require('navbar.php');
     ?>
 
     <main>
-   
+
         {{content}}
 
     </main>
 
     <?php require('footer.php'); ?>
 </body>
-</html>
 
+</html>

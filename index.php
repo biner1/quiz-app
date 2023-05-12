@@ -18,9 +18,6 @@ use App\Controller\DashboardController;
 
 $router = new Router();
 
-$router->get('custom', function(){
-    echo "This custom route";
-});
 
 $router->get('/', [HomeController::class, 'index']);
 $router->get('login', [AuthController::class, 'login']);
@@ -33,7 +30,6 @@ $router->get('admin/users', [AdminController::class, 'index']);
 $router->post('admin/users/update', [AdminController::class, 'updateUser']);
 $router->post('admin/users/password', [AdminController::class, 'changeUserPassword']);
 $router->get('admin/users/delete', [AdminController::class, 'deleteUser']);
-
 
 
 $router->get('quiz', [QuizController::class, 'show']);
