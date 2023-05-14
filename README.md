@@ -1,9 +1,8 @@
 This is a quiz app, where teachers can create quiz and students take quiz,
 
-it has 2 roles
-
-is_admin
-is_teacher
+it has 2 roles:
+* is_admin
+* is_teacher
 
 
 to run the application you should use xamp or mamp

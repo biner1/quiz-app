@@ -25,7 +25,7 @@ class DashboardController extends BaseController{
             $this->render('quiz/dashboard_teacher', ['result'=>$result, 'quiz_results'=>$quiz_results]);
         }else{
             $quiz_attempts = Quiz::getQuizAttemptsByUser($user_id);
-            $result = Quiz::getNumberOfQuizzesTakenAndNumberOfAnswers($user_id)[0];
+            $result = Quiz::getNumberOfQuizzesTakenAndNumberOfAnswers($user_id)[0]??null;
             return $this->render('quiz/dashboard_student', ['quiz_attempts'=>$quiz_attempts, 'result'=>$result, 'user'=>$_SESSION['user']]);
         }
 

@@ -118,5 +118,13 @@ class Utilities{
     }
 
 
+    static function authenticate($user){
+        self::setSession('id', $user['id']);
+        self::setSession('user', $user['name']);
+        self::setSession('is_teacher', $user['is_teacher']);
+        self::setSession('is_admin', $user['is_admin']);
+    }
+
+
 
 }

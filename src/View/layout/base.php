@@ -7,7 +7,10 @@
 <body>
 
     <?php
-    require('navbar.php');
+        if (isset($_SESSION['user'])) {
+
+            require('navbar.php');
+        }
     ?>
 
     <main>

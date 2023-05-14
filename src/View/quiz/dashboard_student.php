@@ -1,13 +1,10 @@
-<h2 class="mb-4">Dashboard</h2>
 <?php
 			// Display user name
-			echo "<h2>User: $user</h2>";
+			echo "<h2>User:". $user ."</h2>";
 		?>
 <div class="container">
 <h1>Quiz Results</h1>
 		<hr>
-
-
 
 <div class="table-responsive">
   <table class="table table-striped">
@@ -30,8 +27,6 @@
   </table>
 </div>
 
-
-
 		<div class="row">
 			<div class="col-sm-12">
 				<div class="card">
@@ -52,6 +47,7 @@
 									// Loop through each row in the query result
 								
 										// Display the quiz statistics in a table row
+									if(isset($result)){
 										echo "<tr>";
 										echo "<td>" . $result['num_quizzes_taken'] . "</td>";
 										echo "<td>" . $result['num_quizzes_attempted'] . "</td>";
@@ -59,6 +55,7 @@
 										echo "<td>" . $result['num_questions_answered_correctly'] . "</td>";
 										echo "<td>" . $result['num_questions_answered_incorrectly'] . "</td>";
 										echo "</tr>";
+									}
 									
 								?>
 							</tbody>

@@ -5,75 +5,32 @@
             <div class="card-body p-md-5">
                 <div class="row justify-content-center">
                     <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
-                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4">Sign UP</p>
 
-                        <form class="mx-1 mx-md-4" id="signup-form">
+                           <form class="form" id="signup-form">
 
-                            <div class="d-flex flex-row align-items-center mb-2">
-                                <i class="fas fa-user fa-lg fa-fw"></i>
+                            <span class="signup">Sign Up</span>
+                            <input placeholder="Full Name" type="text" name="name"  class="form--input" />
+                            <input placeholder="email" type="email" name="email"  class="form--input" />
+                            <input placeholder="Password" type="password" name="password" class="form--input" />
+                            <input placeholder="confirm_password" type="password" name="confirm_password" class="form--input" />
 
-                                <div class="form-outline flex-fill">
-                                    <input placeholder="Full Name" type="text" name="name" id="form3Example1c"
-                                        class="form-control" />
-                                    <small><label class="form-label" for="form3Example1c">Your Name</label></small><br>
-
-                                </div>
+                            
+                            <div class="form--marketing">
+                                <input id="okayToEmail" type="checkbox" name="is_teacher" value="1">
+                                <label for="okayToEmail" class="checkbox">
+                                Is Teacher?
+                                </label>
                             </div>
-
-                            <div class="d-flex flex-row align-items-center mb-2">
-                                <i class="fas fa-envelope fa-lg fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input placeholder="Email" type="email" name="email" id="form3Example3c"
-                                        class="form-control" />
-                                    <small><label class="form-label" for="form3Example3c">Your Email</label></small>
-                                    <br>
-
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-row align-items-center mb-2">
-                                <i class="fas fa-lock fa-lg fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input placeholder="Password" type="password" name="password" id="password"
-                                        class="form-control" />
-                                    <small><label class="form-label" for="password">Password</label> </small><br>
-
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-row align-items-center mb-2">
-                                <i class="fas fa-lock fa-lg fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-                                    <input placeholder="confirm_password" type="password" name="confirm_password"
-                                        id="confirm_password" class="form-control" />
-                                    <small><label class="form-label" for="confirm_password">confirm password</label>
-                                    </small><br>
-
-                                </div>
-                            </div>
-
-                            <div class="d-flex flex-row align-items-center mb-2">
-                                <i class="fas fa-lock fa-lg fa-fw"></i>
-                                <div class="form-outline flex-fill mb-0">
-
-                                    <div class="d-flex justify-content-between">
-                                        <span>
-                                            <input type="checkbox" name="is_teacher" value="1">
-                                            <small><label for="is_teacher">Are you a teacher?</label></small>
-                                        </span>
-
-                                    </div>
-
-                                </div>
-                            </div>
-
 
                             <div id="signup-error"></div>
-                            <input type="hidden" name="signup" value="signup">
+                            
+                            <button type="submit" class="form--submit">
+                                Sign up
+                            </button>
 
-                            <div class="d-flex justify-content-center mb-3 mb-lg-4">
-                                <button type="submit" name='signup' class="btn flex-grow-1"
-                                    style='background-color: #eb4b4b !important; color: white !important'>Register</button>
+                            <div class="sign-up">
+                                Already have an account?
+                                <a href="login">Login</a>
                             </div>
 
                         </form>
@@ -85,3 +42,4 @@
         </div>
     </div>
 </div>
+

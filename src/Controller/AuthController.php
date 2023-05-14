@@ -23,13 +23,8 @@ class AuthController extends BaseController{
         
             if (!empty($user)) {
                 $user = $user[0];
-                utils::setSession('id', $user['id']);
-                utils::setSession('user', $user['name']);
-                utils::setSession('is_teacher', $user['is_teacher']);
-                utils::setSession('is_admin', $user['is_admin']);
-                
+                utils::authenticate($user);
                 utils::responde(true);
-                // utils::redirect('dashboard');
             } else {
                 utils::responde(false, ['Error' => 'Wrong email or password']);
             }
@@ -54,9 +49,11 @@ class AuthController extends BaseController{
             
           if (empty($errors)) {
                 $passwordRegister = md5($password);
-                 $user = User::createUser($email, $passwordRegister, $name, $is_teacher);
+                 $user_created = User::createUser($email, $passwordRegister, $name, $is_teacher);
                 
-                if ($user) {
+                if ($user_created) {
+                        $user = User::getUserByEmailPassword($email, $passwordRegister)[0];
+                        utils::authenticate($user);
                         utils::responde(true);
                 } else {
                         utils::responde(false);
@@ -70,7 +67,7 @@ class AuthController extends BaseController{
 
     }
 
-
+    
     public function logout(){
         utils::destroySession();
         utils::redirect('login');

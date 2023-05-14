@@ -7,34 +7,22 @@
                     <div class="col-md-10 col-lg-6 col-xl-5 order-2 order-lg-1">
 
 
-                        <p class="text-center h1 fw-bold mb-5 mx-1 mx-md-4">Login</p>
-                        <form class="mx-1" action="login" method="POST" id="login-form">
+                        <form class="form" id="login-form">
 
-                            <div class="d-flex flex-row align-items-center mb-2">
-                                <i class="fas fa-envelope fa-lg fa-fw"></i>
-                                <div class="form-outline flex-fill">
-                                    <input placeholder="Email" name="email" type="email" id="form3Example3c"
-                                        class="form-control" />
-                                </div>
+                            <span class="signup">Login</span>
 
-                            </div>
+                            <input required="" name="email" type="email" class="form--input" placeholder="Email">
+                            <input required="" type="password" name="password" class="form--input" placeholder="Password">
 
-                            <div class="d-flex flex-row align-items-center mb-2">
-                                <i class="fas fa-lock fa-lg fa-fw"></i>
 
-                                <div class="form-outline flex-fill">
-                                    <input placeholder="Password" name="password" type="password" id="form3Example4c"
-                                        class="form-control" />
-                                </div>
-                            </div>
                             <div id="login-error"></div>
+                            
+                            <button type="submit" class="form--submit">Sign in</button>
 
-                            <div class="d-flex justify-content-center mt-2">
-                                <button type="submit" id="login" class="btn btn-primary flex-grow-1">Login</button>
+                            <div class="sign-up">
+                                Not a member?
+                                <a href="signup">Signup Now</a>
                             </div>
-
-                            <input type="hidden" name="login" value="login">
-
                         </form>
 
                     </div>
