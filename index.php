@@ -35,6 +35,7 @@ $router->get('admin/users/delete', [AdminController::class, 'deleteUser']);
 $router->get('quiz', [QuizController::class, 'show']);
 $router->get('quizzes', [QuizController::class, 'index']);
 $router->get('quiz/delete', [QuizController::class, 'delete']);
+$router->get('quiz/result', [QuizController::class, 'result']);
 $router->post('quiz/update', [QuizController::class, 'update']);
 $router->post('quiz/store', [QuizController::class, 'store']);
 $router->post('quiz/take', [QuizStudentController::class, 'store']);

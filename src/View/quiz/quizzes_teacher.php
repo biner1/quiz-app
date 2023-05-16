@@ -53,11 +53,11 @@
               </div>
 
               <div class="form-check mb-3">
-                <input class="form-check-input quiz-submittable" type="checkbox" id="submittable" name="submittable"
+                
+                <label class="form-check-label"><input class="form-check-input quiz-submittable" type="checkbox" id="submittable" name="submittable"
                   value="1" <?php if ($quiz['submittable']) {
                     echo "checked";
-                  } ?>>
-                <label class="form-check-label" for="submittable">Submittable?</label>
+                  } ?>>Submittable?</label>
               </div>
 
               <div class="d-flex justify-content-end">

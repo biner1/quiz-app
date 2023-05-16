@@ -131,14 +131,27 @@ class QuizController extends BaseController
             $quiz_id = $_GET['id'];
             $quiz = Quiz::deleteQuiz($quiz_id);
             if ($quiz) {
-                utils::responde(true);
+                utils::responde(true, ['Success' => 'Quiz deleted', 'redirect' => 'quizzes']);
             } else {
-                utils::responde(false, ['Error' => 'Error deleting quiz with id ' . $quiz_id, 'redirect' => 'quizzes']);
+                utils::responde(false, ['Error' => 'Error deleting quiz with id ' . $quiz_id]);
             }
         }
     }
 
 
+    public function result(){
+        if (isset($_GET['id'])) {
+            $user_id = utils::getSession('id');
+            $quiz_id = $_GET['id'];
+            $result = QuizAttempt::getQuizAttemptResult($quiz_id, $user_id);
+            if(!$result){
+                utils::redirect('quizzes');
+            }
+            return $this->render('quiz/result', ['result' => $result]);
+        }else{
+            utils::redirect('quizzes');
+        }
+    }
 
 
 }

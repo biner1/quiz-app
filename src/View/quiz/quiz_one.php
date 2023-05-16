@@ -22,9 +22,10 @@
 									$i = 1;
 									?>
 									<div class="form-check">
+										
+										<label class="form-check-label" id="option1-text">
 										<input class="form-check-input" type="radio" name="option" id="option<?= $i; ?>"
 											value="<?= $option['id'] ?>">
-										<label class="form-check-label" for="option1" id="option1-text">
 											<?= $option['option_text'] ?>
 										</label>
 									</div>

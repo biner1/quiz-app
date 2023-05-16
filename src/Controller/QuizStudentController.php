@@ -79,7 +79,7 @@ class QuizStudentController extends BaseController
             }
         }
         QuizAttempt::setQuizAttemptCompleted($quiz_attempt_id);
-        utils::responde(true, ['Success' => 'Quiz submitted successfully.', 'redirect' => 'quizzes']);
+        utils::responde(true, ['Success' => 'Quiz submitted successfully.', 'redirect' => 'quiz/result?id=' . $quiz_attempt_id]);
     }
 
 
@@ -107,7 +107,7 @@ class QuizStudentController extends BaseController
             } else {
                 QuizAttempt::setQuizAttemptCompleted($quiz_attempt_id);
                 QuizAttempt::setQuizAttemptScore($quiz_attempt_id);
-                utils::responde(true, ['Success' => 'Quiz submitted successfully.', 'redirect' => 'quizzes']);
+                utils::responde(true, ['Success' => 'Quiz submitted successfully.', 'redirect' => 'quiz/result?id=' . $quiz_attempt_id]);
             }
 
         } else {
