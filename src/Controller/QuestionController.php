@@ -8,53 +8,59 @@ use App\Config\middlewares\AuthMiddleware;
 
 use App\Model\QuestionModel as Questions;
 
-class QuestionController extends BaseController{
+class QuestionController extends BaseController
+{
 
-    public function __construct(){
+    public function __construct()
+    {
         $this->registerMiddleware(new AuthMiddleware());
     }
 
-    public function store(){
-        if(isset($_POST['create_question'])){
+    public function store()
+    {
+        if (isset($_POST['create_question'])) {
             $question_text = $_POST['question-text'];
             $quiz_id = $_POST['create_question'];
-        
+
             $question = Questions::createQuestion($quiz_id, $question_text);
-            if($question){
-                utils::responde(true);
-            }else{
+            if ($question) {
+                utils::responde(true, ['Success' => 'Question Created', 'redirect' => 'quiz?id=' . $quiz_id]);
+            } else {
                 utils::responde(false);
             }
         }
     }
 
 
-    public function delete(){
-        if(isset($_GET['id'])){
+    public function delete()
+    {
+        if (isset($_GET['id'])) {
             $question_id = $_GET['id'];
             $question = Questions::deleteQuestion($question_id);
-            if($question){
-                utils::responde(true);
-            }else{
-                utils::responde(false, ['Error'=>'Error deleting question']);
+            if ($question) {
+                utils::responde(true, ['Success' => 'Question Deleted']);
+            } else {
+                utils::responde(false, ['Error' => 'Error deleting question']);
             }
-        }else{
-            utils::responde(false, ['Error'=>'Error deleting question']);
+        } else {
+            utils::responde(false, ['Error' => 'Error deleting question']);
         }
     }
 
-    public function update(){
-        if(isset($_POST['update_question'])){
+    public function update()
+    {
+        if (isset($_POST['update_question'])) {
+            $quiz_id = $_POST['quiz_id'];
             $question_id = $_POST['update_question'];
             $question_text = $_POST['question_text'];
             $question = Questions::updateQuestionText($question_id, $question_text);
-            if($question){
-                utils::responde(true);
-            }else{
-                utils::responde(false, ['Error'=>'Error updating question']);
+            if ($question) {
+                utils::responde(true, ['Success' => 'Question Updated', 'redirect' => 'quiz?id=' . $quiz_id]);
+            } else {
+                utils::responde(false, ['Error' => 'Error updating question']);
             }
-        }else{
-            utils::responde(false, ['Error'=>'Error updating question']);
+        } else {
+            utils::responde(false, ['Error' => 'Error updating question']);
         }
     }
 

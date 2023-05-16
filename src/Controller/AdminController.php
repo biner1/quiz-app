@@ -65,7 +65,7 @@ class AdminController extends BaseController
         }
 
         User::updateUserInformation($name, $phone, $email, $is_teacher, $is_admin, $id);
-        utils::responde(true);
+        utils::responde(true, ['Success' => 'User updated successfully', 'redirect' => 'admin?user=' . $id]);
     }
 
     public function changeUserPassword()
@@ -85,7 +85,7 @@ class AdminController extends BaseController
             utils::responde(false, ['Error' => 'Password could not be changed']);
         }
 
-        utils::responde(true, ['Success' => 'Password changed successfully']);
+        utils::responde(true, ['Success' => 'Password changed successfully', 'redirect' => 'admin?user=' . $id]);
     }
 
     public function deleteUser()
@@ -96,7 +96,7 @@ class AdminController extends BaseController
             if ($user == 0) {
                 utils::responde(false, ['Error' => 'User could not be deleted']);
             }
-            utils::responde(true, ['Success' => 'User deleted successfully']);
+            utils::responde(true, ['Success' => 'User deleted successfully', 'redirect' => 'users']);
         }
     }
 

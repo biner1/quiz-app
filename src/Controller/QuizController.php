@@ -99,7 +99,7 @@ class QuizController extends BaseController
 
             $quiz = Quiz::createQuiz($title, $description, $user_id, $quiz_mode);
             if ($quiz) {
-                utils::responde(true);
+                utils::responde(true, ['Success' => 'Quiz created', 'redirect' => 'quizzes']);
             } else {
                 utils::responde(false, ['Error' => 'Error creating quiz']);
             }
@@ -117,7 +117,7 @@ class QuizController extends BaseController
 
             $quiz = Quiz::updateQuiz($quiz_id, $title, $description, $submittable, utils::getSession('id'));
             if ($quiz) {
-                utils::responde(true);
+                utils::responde(true, ['Success' => 'Quiz updated', 'redirect' => 'quiz?id=' . $quiz_id]);
             } else {
                 utils::responde(false, ['Error' => 'Quiz not updated with id ' . $quiz_id]);
             }
@@ -133,16 +133,12 @@ class QuizController extends BaseController
             if ($quiz) {
                 utils::responde(true);
             } else {
-                utils::responde(false, ['Error' => 'Error deleting quiz with id ' . $quiz_id]);
+                utils::responde(false, ['Error' => 'Error deleting quiz with id ' . $quiz_id, 'redirect' => 'quizzes']);
             }
         }
     }
 
 
-    public function all()
-    {
-        echo 'hi';
-    }
 
 
 }
