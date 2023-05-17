@@ -117,7 +117,7 @@ class QuizController extends BaseController
 
             $quiz = Quiz::updateQuiz($quiz_id, $title, $description, $submittable, utils::getSession('id'));
             if ($quiz) {
-                utils::responde(true, ['Success' => 'Quiz updated', 'redirect' => 'quiz?id=' . $quiz_id]);
+                utils::responde(true, ['Success' => 'Quiz updated', 'redirect' => 'quizzes']);
             } else {
                 utils::responde(false, ['Error' => 'Quiz not updated with id ' . $quiz_id]);
             }
@@ -139,16 +139,17 @@ class QuizController extends BaseController
     }
 
 
-    public function result(){
+    public function result()
+    {
         if (isset($_GET['id'])) {
             $user_id = utils::getSession('id');
             $quiz_id = $_GET['id'];
             $result = QuizAttempt::getQuizAttemptResult($quiz_id, $user_id);
-            if(!$result){
+            if (!$result) {
                 utils::redirect('quizzes');
             }
             return $this->render('quiz/result', ['result' => $result]);
-        }else{
+        } else {
             utils::redirect('quizzes');
         }
     }

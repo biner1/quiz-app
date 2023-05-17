@@ -202,7 +202,8 @@ class QuizModel extends Database
         $sql = "SELECT qa.id AS attempt_id, q.title, qa.score, qa.created_at
         FROM quiz_attempts qa
         JOIN quizzes q ON q.id = qa.quiz_id
-        WHERE qa.user_id = :user_id";
+        WHERE qa.user_id = :user_id
+        ORDER BY qa.created_at DESC;";
         return Database::query($sql, [':user_id' => $user_id]);
     }
 
@@ -235,9 +236,9 @@ class QuizModel extends Database
 
     static function getNumberOfQuizzesTakenAndNumberOfAnswers($user_id)
     {
-        $sql = "SELECT quiz_attempts.user_id,
+        $sql = "SELECT quiz_attempts.user_id, quiz_attempts.id as attempt_id,
             COUNT(DISTINCT quiz_attempts.quiz_id) AS num_quizzes_taken,
-            COUNT(quiz_attempts.quiz_id) AS num_quizzes_attempted,
+            COUNT(distinct quiz_attempts.id) AS num_quizzes_attempted,
             COUNT(attempt_answers.id) AS num_questions_answered,
             COUNT(CASE WHEN options.is_correct = 1 THEN 1 END) AS num_questions_answered_correctly,
             COUNT(CASE WHEN options.is_correct = 0 THEN 1 END) AS num_questions_answered_incorrectly
